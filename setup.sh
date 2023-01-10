@@ -28,15 +28,16 @@ git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$
 git clone https://github.com/agkozak/zsh-z ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-z
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+git clone https://github.com/unixorn/fzf-zsh-plugin.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/fzf-zsh-plugin
 
 echo "4. Installing ZSH via APT"
 
-sudo apt install zsh
+sudo apt install -y zsh
 
 
 echo "5. Make ZSH the default shell"
 
-chsh -s $(which zsh)
+sudo chsh -s $(which zsh)
 
 
 echo "6. Installing tools"
@@ -63,7 +64,7 @@ echo "6.2. xclip"
 # https://avilpage.com/2014/04/access-clipboard-from-terminal-in.html
 
 if ! [ -x "$(command -v xclip)" ]; then
-    sudo apt install xclip
+    sudo apt install -y xclip
 
     echo -e "\txclip successfully installed"
 else
@@ -104,7 +105,7 @@ echo "6.5. tmux"
 
 
 if ! [ -x "$(command -v tmux)" ]; then
-    sudo apt install tmux
+    sudo apt install -y tmux
 
     echo -e "\ttmux successfully installed"
 else
@@ -131,6 +132,18 @@ if ! [ -x "$(command -v node)" ]; then
     curl -L https://bit.ly/n-install | bash
 
     n install 16
+
+    echo -e "\Node and N successfully installed"
+else
+    echo -e "\tSkipping because Node is already installed"
+fi
+
+echo "6.7. fzf"
+# https://github.com/junegunn/fzf#using-git
+
+
+if ! [ -x "$(command -v fzf)" ]; then
+    .fzf/install --bin
 
     echo -e "\Node and N successfully installed"
 else
