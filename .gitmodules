@@ -22,3 +22,6 @@
 [submodule ".tmux/plugins/tmux-sidebar"]
 	path = .tmux/plugins/tmux-sidebar
 	url = https://github.com/tmux-plugins/tmux-sidebar.git
+[submodule ".fzf"]
+	path = .fzf
+	url = https://github.com/junegunn/fzf.git
