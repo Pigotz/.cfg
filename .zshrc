@@ -148,3 +148,63 @@ export PATH=$PATH:$GOPATH/bin
 
 # Some other aliases
 alias bastion-host='ssh -i ~/.ssh/aws_cubbit_rsa ubuntu@bh.cubbit.io'
+alias sizes='du -hs ./* | sort -rh'
+
+# Custom functions
+
+# How to:
+#   "cat `randfile 10K`" will return the path to a new file of size 10K
+#   "cat `randfile =`" will return the path the latest generated file
+#   "cat `randfile clear`" clean the history and remove the files
+RANDFILE_HISTORY=$HOME/.randfile.history
+function randfile() {
+    if [ $1 = "=" ]; then
+      if [ -f "$RANDFILE_HISTORY" ]; then
+        tail -n 1 $RANDFILE_HISTORY
+      fi
+
+      return
+    fi
+
+    if [ $1 = "clear" ]; then
+      if [ -f "$RANDFILE_HISTORY" ]; then
+        xargs rm < $RANDFILE_HISTORY
+        rm $RANDFILE_HISTORY
+      fi
+
+      return
+    fi
+
+    filepath=$HOME/Downloads/$(uuidgen).randfile
+
+    echo $filepath >> $RANDFILE_HISTORY
+
+    head -c $1 < /dev/urandom > $filepath > /dev/null 2>&1
+    # dd if=/dev/urandom of=$filepath bs=$1 count=1 > /dev/null 2>&1
+
+    printf $filepath
+}
+
+# function textfile() {
+#     if [ $1 = "=" ]; then
+#         find $HOME/Downloads -type f -regex '.*fake_.*\.txt$' | head -n 1
+#         return
+#     fi
+
+#     rm $HOME/Downloads/fake*.txt
+#     filename="$HOME/Downloads/fake_$RANDOM.txt"
+#     echo "$@" > "$filename"
+#     printf "$filename"
+# }
+
+# function clipfile() {
+#     if [ $1 = "=" ]; then
+#         find $HOME/Downloads -type f -regex '.*clip_.*\.txt$' | head -n 1
+#         return
+#     fi
+
+#     rm $HOME/Downloads/clip_*.txt
+#     filename="$HOME/Downloads/clip_$RANDOM.txt"
+#     plic > "$filename"
+#     printf "$filename"
+# }

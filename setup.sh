@@ -1,6 +1,15 @@
 #!/bin/bash
 set -e
 
+# TODO: Add fontconfig apt install
+# TODO: Add Noto Color Emoji | https://fonts.google.com/noto/specimen/Noto+Color+Emoji
+
+echo "0. Update system and install deps"
+
+sudo apt update
+
+sudo apt install build-essential
+
 echo "1. Checking out cfg repository"
 
 git clone --bare https://github.com/Pigotz/.cfg.git $HOME/.cfg
