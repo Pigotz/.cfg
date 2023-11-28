@@ -48,7 +48,6 @@ echo "5. Make ZSH the default shell"
 
 sudo chsh -s $(which zsh)
 
-
 echo "6. Installing tools"
 
 echo "6.1. LSD"
@@ -57,8 +56,8 @@ echo "6.1. LSD"
 if ! [ -x "$(command -v lsd)" ]; then
     lsd_version=0.23.1
 
-    wget https://github.com/Peltoche/lsd/releases/download/$(echo $lsd_version)/lsd_$(echo $lsd_version)_amd64.deb
-    
+    wget "https://github.com/Peltoche/lsd/releases/download/$(echo $lsd_version)/lsd_$(echo $lsd_version)_amd64.deb"
+
     sudo dpkg -i lsd_$(echo $lsd_version)_amd64.deb
 
     rm lsd_$(echo $lsd_version)_amd64.deb
@@ -152,7 +151,7 @@ echo "6.7. fzf"
 
 
 if ! [ -x "$(command -v fzf)" ]; then
-    .fzf/install --bin
+    ~/.fzf/install --bin
 
     echo -e "\Node and N successfully installed"
 else
