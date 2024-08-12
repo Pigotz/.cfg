@@ -123,6 +123,7 @@ alias la='ls -a'
 alias lla='ls -la'
 alias lt='ls --tree'
 
+alias anonym='fc -p'
 
 # https://avilpage.com/2014/04/access-clipboard-from-terminal-in.html
 alias c='xclip -selection clipboard'
