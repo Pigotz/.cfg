@@ -6,11 +6,30 @@ set -e
 
 echo "0. Update system and install deps"
 
+# If apt is not present, skip the whole installation
+
+if ! [ -x "$(command -v apt)" ]; then
+    echo "Skipping installation because apt is not present"
+    exit 1
+fi
+
 sudo apt update
 
 sudo apt install build-essential
 
 echo "1. Checking out cfg repository"
+
+# If git is not present, install it
+if ! [ -x "$(command -v git)" ]; then
+    echo "Git is not installed. Installing it now"
+    sudo apt install -y git
+fi
+
+# If destinetion folder is already present, remove it
+if [ -d "$HOME/.cfg" ]; then
+    echo "Removing existing .cfg folder"
+    rm -rf $HOME/.cfg
+fi
 
 git clone --bare https://github.com/Pigotz/.cfg.git $HOME/.cfg
 
@@ -80,35 +99,7 @@ else
 fi
 
 
-echo "6.3. pyenv"
-# https://github.com/pyenv/pyenv#automatic-installer
-
-
-if ! [ -x "$(command -v pyenv)" ]; then
-    curl https://pyenv.run | bash
-
-    echo -e "\tpyenv successfully installed"
-else
-    echo -e "\tpyenv already installed"
-fi
-
-echo "6.4. Go"
-# https://go.dev/doc/install
-
-
-if ! [ -x "$(command -v go)" ]; then
-    go_version=1.19.4
-
-    wget https://go.dev/dl/go$(echo $go_version).linux-amd64.tar.gz
-
-    rm -rf /usr/local/go && tar -C /usr/local -xzf go$(echo $go_version).linux-amd64.tar.gz
-
-    echo -e "\tGo successfully installed"
-else
-    echo -e "\tGo already installed"
-fi
-
-echo "6.5. tmux"
+echo "6.3. tmux"
 # https://github.com/tmux/tmux/wiki/Installing
 
 
@@ -120,40 +111,15 @@ else
     echo -e "\ttmux already installed"
 fi
 
-echo "6.6. Rust and Cargo"
-# https://www.rust-lang.org/tools/install
 
-
-if ! [ -x "$(command -v cargo)" ] && ! [ -x "$(command -v rustc)" ]; then
-    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-
-    echo -e "\tRust and Cargo successfully installed"
-else
-    echo -e "\tSkipping because something is already installed"
-fi
-
-echo "6.6. Node and N"
-# https://www.rust-lang.org/tools/install
-
-
-if ! [ -x "$(command -v node)" ]; then
-    curl -L https://bit.ly/n-install | bash
-
-    n install 16
-
-    echo -e "\Node and N successfully installed"
-else
-    echo -e "\tSkipping because Node is already installed"
-fi
-
-echo "6.7. fzf"
+echo "6.4. fzf"
 # https://github.com/junegunn/fzf#using-git
 
 
 if ! [ -x "$(command -v fzf)" ]; then
     ~/.fzf/install --bin
 
-    echo -e "\Node and N successfully installed"
+    echo -e "\tFZF successfully installed"
 else
-    echo -e "\tSkipping because Node is already installed"
+    echo -e "\tSkipping because FZF is already installed"
 fi
